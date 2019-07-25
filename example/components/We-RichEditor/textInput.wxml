@@ -21,10 +21,10 @@
         <image src="../components/We-RichEditor/images/font-colors.png" alt="" class="" style="width:20px;;height:20px;"></image>
       </view>
       -->
-      <!-- view title="居中" catchtap="fontEvent" data-eventid="{{'13-'+index}}" data-comkey="{{$k}}" class="menu-list">
+      <view title="居中" catchtap="fontEvent" data-eventid="{{'13-'+index}}" data-comkey="{{$k}}" class="menu-list">
         <image src="./components/We-RichEditor/images/font-center.png" alt="" class="" style="width:20px;;height:20px;"></image>
-        initfontcolor(editorData[i - 1].font)
-      </view> -->
+        
+      </view>
       <view title="字体颜色" catchtap="fontEvent" data-eventid="{{'17-'+index}}" data-comkey="{{$k}}" class="menu-list" style=" background-color:{{editContent.font.color}}">
           <view catchtap="handleProxy" class="color-box {{[editorData[i - 1].font.showcolor != 1 ? 'hide' : '']}}" data-eventid="{{'16-'+index}}" data-comkey="{{$k}}">
             <!-- <view class="_div data-v-5daef28f color-title"> 字体颜色 </view> -->
@@ -42,7 +42,7 @@
     </view>
     <view id="textareawrap" class="text-box" style="margin-left:10rpx;margin-right:10rpx;border:1px black solid;">
       <!-- <text>"{{editorData[i-1].content}}"</text> -->
-      <textarea  fixed="true" name="" rows="" cols="" value="{{editContent.content}}" bindinput="textareainput" data-eventid="{{'18-'+index}}" data-comkey="{{$k}}" class="weui-textarea" maxlength="500" style="height:280px;{{fontSetting}}" />
+      <textarea  fixed="true" name="" rows="" cols="" bindinput="textareainput" data-eventid="{{'18-'+index}}" data-comkey="{{$k}}" class="weui-textarea" maxlength="500" style="height:280px;{{fontSetting}}" >{{editContent.content}}</textarea>
     </view>
     <view class="_div data-v-5daef28f line"></view>
   </view>

@@ -366,8 +366,7 @@ function txtInputDone() {
   let fontContent = this.data.editContent;
   let dataIndex = fontContent.dataIndex;
   //console.log("come back changeTxtData", JSON.stringify(fontContent));
-  console.log(dataIndex)
-  console.log(this.data.layoutList.length)
+
   let beforeContent = null
   if (dataIndex < this.data.layoutList.length){
     
@@ -378,8 +377,6 @@ function txtInputDone() {
     this.weRicheditor.trigger(Event.beforeTxtEdit, beforeContent)
   }
   
-  
-
 
   //let dataIndex = fontContent.dataIndex;
   let rcvContent = fontContent.content;
@@ -432,11 +429,15 @@ function imageInputDone() {
   let imageContent = this.data.editContent;
   let dataIndex = imageContent.dataIndex;
   //console.log("come back changeTxtData", JSON.stringify(imageContent));
-  let beforeContent = this.data.layoutList[dataIndex];
-  beforeContent.act = imageContent.act;
-  beforeContent.dataIndex = imageContent.dataIndex;
-  // this = page.  因为钩子函数已经注册了组件实例
-  this.weRicheditor.trigger(Event.beforeImgEdit, beforeContent)
+  let beforeContent = null
+  if (dataIndex < this.data.layoutList.length) {
+    beforeContent = this.data.layoutList[dataIndex];
+    beforeContent.act = imageContent.act;
+    beforeContent.dataIndex = imageContent.dataIndex;
+    // this = page.  因为钩子函数已经注册了组件实例
+    this.weRicheditor.trigger(Event.beforeImgEdit, beforeContent)
+  }
+  
 
 
   //let dataIndex = fontContent.dataIndex;
@@ -449,8 +450,13 @@ function imageInputDone() {
     newContent.content = rcvContent;
     newContent.remark = remark;
     let layoutList = this.data.layoutList;
-    // 拼接函数(索引位置, 要删除元素的数量, 元素)
-    layoutList.splice(dataIndex, 0, newContent); // 
+    if (!dataIndex) {
+      layoutList.push(newContent)
+    }else{
+      // 拼接函数(索引位置, 要删除元素的数量, 元素)
+      layoutList.splice(dataIndex, 0, newContent); // 
+    }
+    
     //console.log("new input layoutList", layoutList);
     this.setData({
       layoutList: layoutList,
