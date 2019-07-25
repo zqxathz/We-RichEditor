@@ -117,6 +117,10 @@
           </view>
         </block>
       </view>
+      <view class="" style="display:flex;justify-content:center" catchtap="schooseNewEditType"
+                data-eventid="{{'7-'+index}}" data-comkey="{{$k}}">
+          <image src="./components/We-RichEditor/images/newEdit.png" class="addLayouticon" style="padding-left:20px" />
+      </view>
     </view>
   </scroll-view>
   <!-- 预览，保存数据到缓存，从缓存读取数据 按钮 -->

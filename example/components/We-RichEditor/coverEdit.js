@@ -3,7 +3,9 @@ import WeCropper from '../we-cropper/we-cropper.js'
 
 const device = wx.getSystemInfoSync()
 const width = device.windowWidth
-const height = device.windowHeight - 50
+const height = device.windowHeight - 80
+
+let hasopen = false
 
 
 Page({
@@ -12,17 +14,18 @@ Page({
    * 页面的初始数据
    */
   data: {
+    btn_disable:"disable",
     cropperOpt: {
       id: 'cropper',
       width,
-      height:500,
+      height: height,
       scale: 2.5,
       zoom: 8,
       cut: {
-        x: (width - 400) / 2,
-        y: (height - 200) / 2,
-        width: 400,
-        height: 200
+        x: (width - 300) / 2,
+        y: (height - 300) / 2,
+        width: 300,
+        height: 300
       }
     },
     diary: {
@@ -103,6 +106,9 @@ Page({
     this.wecropper.touchEnd(e)
   },
   getCropperImage() {
+    if (!hasopen){
+      return
+    }
     this.wecropper.getCropperImage((src) => {
       if (src) {
         // to do , 检查大小
@@ -132,7 +138,10 @@ Page({
   },
   uploadTap() {
     const self = this
-    console.log('aaaaa')
+    wx.showLoading({
+      title: '正在打开相册...',
+      icon:"none"
+    })
     wx.chooseImage({
       count: 1, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -142,6 +151,13 @@ Page({
         //  获取裁剪图片资源后，给data添加src属性及其值
 
         self.wecropper.pushOrign(src)
+        hasopen = true
+        self.setData({
+          btn_disable:""
+        })
+      },
+      complete(res){
+        wx.hideLoading()
       }
     })
   },
