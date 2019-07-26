@@ -45,7 +45,7 @@
       <!-- <text>"{{editorData[i-1].content}}"</text> -->
       <textarea  fixed="true" name="" rows="" cols="" bindinput="textareainput" data-eventid="{{'18-'+index}}" data-comkey="{{$k}}" 
       class="weui-textarea" maxlength="500" style="height:280px;{{fontSetting}}" value="{{editContent.content}}">
-      {{editContent.content}}</textarea>
+      </textarea>
     </view>
     <view class="_div data-v-5daef28f line"></view>
   </view>
