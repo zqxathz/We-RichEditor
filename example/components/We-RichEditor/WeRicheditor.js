@@ -148,6 +148,12 @@ var Event = Enum({
 
 });
 
+var ColorList = {
+  black:"#000000",
+  red:"#FF0000",
+  green:"#458B00"
+}
+
 /* 
 组件类， 继承 事件 基类
  */
@@ -207,8 +213,9 @@ WeRicheditor.prototype.Init = function (target, options) {
 
   //console.log("options", options);
   if (JSON.stringify(options) == '{}' || options == undefined) {
+    let default_color = ColorList.black;
     //console.log("options is {}");
-    let textExampleJson = JSON.parse('{"mytype": "1","content": "点击这里输入内容","font":{"fontSetting": ""}}');
+    let textExampleJson = JSON.parse('{"mytype": "1","content": "点击这里输入内容","font":{"size":"16","center":0,"color":"' + default_color+'","fontSetting": ""}}');
     let layoutList = [];
     // 拼接函数(索引位置, 要删除元素的数量, 元素)
     layoutList.splice(0, 0, textExampleJson);
@@ -322,11 +329,13 @@ function goEditPage(event) {
 
 
   if (selectype == "TXT") {
+    
     that.setData({
       showMode: "textInput",
       editContent: editContent,
       editindex: dataIndex,
-      fontSetting: initstyle(editContent.font)
+      fontSetting: initstyle(editContent.font),
+      a:1111
     })
   }
   if (selectype == "IMG") {
@@ -532,18 +541,20 @@ function schooseNewEditType(event) {
         //   }
 
         if (newEditType == "TXT") {
-          let editContent = JSON.parse('{\"mytype\":\"1\",\"content\":\"\",\"font\":{\"size\":16,\"weight\":0,\"del\":0,\"line\":0,\"center\":1,\"color\":\"#ED1C24\",\"bgcolor\":\"#fff \",\"showcolor\":0,\"fontSetting\":\"\"},\"remark\":\"\"}');
+          let editContent = JSON.parse('{\"mytype\":\"1\",\"content\":\"\",\"font\":{\"size\":16,\"weight\":0,\"del\":0,\"line\":0,\"center\":0,\"color\":\"#ED1C24\",\"bgcolor\":\"#fff \",\"showcolor\":0,\"fontSetting\":\"\"},\"remark\":\"\"}');
          
           
           editContent.act = "new";
           editContent.dataIndex = dataIndex;
           let fontSetting = initstyle(editContent.font)
 
+          console.log(ColorList)
           that.setData({
             showMode: "textInput",
             editContent: editContent,
-            fontSetting: fontSetting
-
+            fontSetting: fontSetting,
+            color_list_hide:1,
+            color_list:ColorList
           })
 
         }
@@ -659,6 +670,7 @@ function fontEvent(event) {
     return;
   }
   let editContent = this.data.editContent;
+  let color_list_hide = this.data.color_list_hide;
   console.log(this.data.editContent)
 
   if (eventid[0] == 8) {
@@ -684,14 +696,11 @@ function fontEvent(event) {
       if (editContent.font.size >= 60){
         editContent.font.size = 60
       }else{
-        editContent.font.size = editContent.font.size + 2;
+        editContent.font.size = Number(editContent.font.size) + 2;
       }
-    
     }
     else {
-      
-      editContent.font.size = 16+2;
-      console.log(editContent.font.size)
+      editContent.font.size = Number(16)+2;
     }
   }
   else if (eventid[0] == 10) {
@@ -705,9 +714,29 @@ function fontEvent(event) {
 
     }
     else {
-      editContent.font.size = 16-2;
+      editContent.font.size = Number(16)-2;
 
     }
+  }
+  else if (eventid[0] == 13){
+    if (editContent.font.center == undefined || editContent.font.center==0){
+      editContent.font.center =1
+    }else{
+      editContent.font.center = 0
+    }
+  }
+  else if (eventid[0] == 16){
+   
+    if (color_list_hide==1){
+      this.setData({
+        color_list_hide:0
+      })
+    }else{
+      this.setData({
+        color_list_hide: 1
+      })
+    }
+    return
   }
 
   let fontSetting = initstyle(editContent.font);
@@ -741,7 +770,7 @@ function initstyle(font) {
 
   //if (font.del == 1) stylestr += "text-decoration:line-through;"
   //if (font.line == 1) stylestr += "text-decoration:underline;"
-  //if (font.center == 1) stylestr += "text-align: center;"
+  if (font.center == 1) stylestr += "text-align: center;"
   if (font.color) stylestr += ("color:" + font.color + ";");
   //if (font.bgcolor) stylestr += ("display: inline;background-color:" + font.bgcolor + ";");
   return stylestr;

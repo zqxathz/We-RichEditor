@@ -25,8 +25,9 @@
           </view>
         </block>
       </view>
-      <!-- 文本编辑 -->
+      <!--循环内容-->
       <view class="item-group" wx:for="{{layoutList}}" wx:for-item="item" wx:key="*index">
+        <!-- 文本编辑 -->
         <block wx:if="{{item.mytype == '1'}}">
           <view style="width:100%">
             <view class="action-head" style="display:flex;flex-direction:row;justify-content: space-between;">
@@ -119,7 +120,7 @@
       </view>
       <view class="" style="display:flex;justify-content:center" catchtap="schooseNewEditType"
                 data-eventid="{{'7-'+index}}" data-comkey="{{$k}}">
-          <image src="./components/We-RichEditor/images/newEdit.png" class="addLayouticon" style="padding-left:20px" />
+          <image src="./components/We-RichEditor/images/newEdit.png" class="addLayouticon" style="padding-left:22px" />
       </view>
     </view>
   </scroll-view>
@@ -144,7 +145,7 @@
       <template is="common" data="{{diary: diary, mediaActionSheetItems: mediaActionSheetItems, mediaActionSheetBinds: mediaActionSheetBinds, layoutList: layoutList}}" />
     </block>
     <block wx:if="{{showMode == 'textInput'}}">
-      <template is="textInput" data="{{editContent:editContent,fontSetting:fontSetting}}" />
+      <template is="textInput" data="{{editContent:editContent,fontSetting:fontSetting,color_list_hide:color_list_hide,color_list:color_list}}" />
     </block>
     <block wx:if="{{showMode == 'imageInput'}}">
       <template is="imageInput" data="{{editContent:editContent}}" />
