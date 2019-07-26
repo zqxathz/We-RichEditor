@@ -1,6 +1,18 @@
 <!--client/pages/new/textInput.wxml-->
 <template name="textInput">
 <view class="_div data-v-5daef28f content">
+  <cover-view class="color-cover"  hidden="{{color_list_hide==1 ? true : false}}" catchtap="fontEvent" data-eventid="{{'20-'+index}}">
+      <cover-view class="_div data-v-5daef28f color-list" catchtap="handleProxy" >      
+          <block  wx:for="{{color_list}}" wx:key="*index">
+            <cover-view class="color-item" catchtap="fontEvent" data-eventid="{{'14-'+index}}" data-comkey="{{$k}}" >
+              <cover-view style="width:45rpx;height:45rpx;background-color:{{item}}">
+              </cover-view>
+              <!--label catchtap="fontEvent" data-eventid="{{'14-'+index}}" data-comkey="{{$k}}" class="_span data-v-5daef28f" style="height:10px;background-color:{{item}};color:white">{{index}}</label-->
+            </cover-view>
+          </block>              
+      </cover-view>
+    </cover-view>
+    
   <view class="menu-wrp11" >
     <view class="menu-wrp" style="display:flex;flex-direction:row;">
       <view title="加粗" catchtap="fontEvent" data-eventid="{{'8-'+index}}" data-comkey="{{$k}}" class="menu-list">
@@ -27,13 +39,8 @@
       <view title="字体颜色" catchtap="fontEvent" data-eventid="{{'17-'+index}}" data-comkey="{{$k}}" class="menu-list" style=" ">
           <view catchtap="fontEvent" class="item-icon color-box {{[editorData[i - 1].font.showcolor != 1 ? '' : '']}}" style="background-color:{{editContent.font.color}}" data-eventid="{{'16-'+index}}" data-comkey="{{$k}}">
             <!-- <view class="_div data-v-5daef28f color-title"> 字体颜色 </view> -->           
-            <view class="_div data-v-5daef28f color-list"  hidden="{{color_list_hide==1 ? true : false}}">              
-              <block  wx:for="{{color_list}}" wx:key="*index">
-                <view class="_div data-v-5daef28f color-item">
-                  <label catchtap="fontEvent" data-eventid="{{'14-'+index}}" data-comkey="{{$k}}" class="_span data-v-5daef28f" style="height:10px;background-color:{{item}};color:{{item}}">SEL</label>
-                </view>
-              </block>              
-           </view>
+            
+            
             <!-- <view class="_div data-v-5daef28f color-title"> 字体颜色代码 </view> 
             <view class="_div data-v-5daef28f color-input">
             <input type="text" value="{{editorData[i-1].font.color}}" bindinput="handleProxy" data-eventid="{{'15-'+index}}" data-comkey="{{$k}}" class="" /> 
@@ -44,7 +51,8 @@
     <view id="textareawrap" class="text-box" style="margin-left:10rpx;margin-right:10rpx;border:1px black solid;">
       <!-- <text>"{{editorData[i-1].content}}"</text> -->
       <textarea  fixed="true" name="" rows="" cols="" bindinput="textareainput" data-eventid="{{'18-'+index}}" data-comkey="{{$k}}" 
-      class="weui-textarea" maxlength="500" style="height:280px;{{fontSetting}}" value="{{editContent.content}}">
+      class="weui-textarea" maxlength="500" style="height:880rpx;{{fontSetting}}" value="{{editContent.content}}"
+      placeholder="请在这里输入内容">
       </textarea>
     </view>
     <view class="_div data-v-5daef28f line"></view>

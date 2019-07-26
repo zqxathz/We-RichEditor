@@ -118,7 +118,7 @@
           </view>
         </block>
       </view>
-      <view class="" style="display:flex;justify-content:center" catchtap="schooseNewEditType"
+      <view class="item-group action-head" style="justify-content:center;margin-bottom:130rpx" catchtap="schooseNewEditType"
                 data-eventid="{{'7-'+index}}" data-comkey="{{$k}}">
           <image src="./components/We-RichEditor/images/newEdit.png" class="addLayouticon" style="padding-left:22px" />
       </view>

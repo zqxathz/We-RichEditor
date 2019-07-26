@@ -8,10 +8,10 @@
             </view>
         </view> -->
         <view class="page__bd">
-            <view class="weui-article">
+            <view class="weui-article" style="margin-bottom: 70px">
                 <block wx:for="{{layoutList}}" wx:for-item="item" wx:key="index">
                     <block wx:if="{{item.mytype == 1}}">
-                        <view class='weui-article__p'>
+                        <view class='weui-article__p' style="text-align:{{item.font.center=='1'?'center':'left'}}">
                             <text decode="{{true}}" style="{{item.font.fontSetting}}"> &nbsp;&nbsp;{{item.content}}
                             </text>
                         </view>

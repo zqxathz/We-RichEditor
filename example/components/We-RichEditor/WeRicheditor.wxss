@@ -80,7 +80,7 @@ page {
 }
 .layoutItem .content .message{
   font-size: 16px;
-  line-height: 14px;
+  line-height: 16px;
   color: gray;
   margin-top: 5px;
   flex-grow:1;

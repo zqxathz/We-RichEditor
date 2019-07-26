@@ -31,7 +31,6 @@ func ： 注册的Function
       }
     } else {
       // console.log("in handleFunc else");
-
       this.handleFunc[type] = [func];
       //console.log("in handleFunc end");
 
@@ -127,12 +126,14 @@ function Enum(a) {
   let i = Object
     .keys(a)
     .reduce((o, k) => (o[a[k]] = k, o), {});
+ 
 
-  return Object.freeze(
+  let j = Object.freeze(
     Object.keys(a).reduce(
       (o, k) => (o[k] = a[k], o), v => i[v]
     )
   );
+  return j
 } 
 
 /* 基于 枚举基类 定义枚举值 事件名字 */
@@ -148,10 +149,26 @@ var Event = Enum({
 
 });
 
+
+
 var ColorList = {
-  black:"#000000",
-  red:"#FF0000",
-  green:"#458B00"
+  Black: "#000000",
+  Gray: "#808080",
+  Silver: "#C0C0C0",
+  Red: "#FF0000",
+  Brown: "#A52A2A",
+  Maroon: "#800000",
+  Cyan: "#00FFFF",
+  Blue: "#0000FF",
+  DarkBlue: "#0000A0",
+  LightBlue: "#ADD8E6",
+  Purple: "#800080",
+  Yellow: "#FFFF00",
+  Orange: "#FFA500",
+  Lime: "#00FF00",
+  Magenta: "#FF00FF",
+  Green: "#008000",
+  Olive: "#808000"
 }
 
 /* 
@@ -213,7 +230,7 @@ WeRicheditor.prototype.Init = function (target, options) {
 
   //console.log("options", options);
   if (JSON.stringify(options) == '{}' || options == undefined) {
-    let default_color = ColorList.black;
+    let default_color = ColorList.Black
     //console.log("options is {}");
     let textExampleJson = JSON.parse('{"mytype": "1","content": "点击这里输入内容","font":{"size":"16","center":0,"color":"' + default_color+'","fontSetting": ""}}');
     let layoutList = [];
@@ -232,9 +249,6 @@ WeRicheditor.prototype.Init = function (target, options) {
     });
     // console.log("this.data.layoutList", that.data.layoutList);
   }
-
-
-
   this.trigger(Event.Init, "some things Inited");
 }
 
@@ -335,7 +349,8 @@ function goEditPage(event) {
       editContent: editContent,
       editindex: dataIndex,
       fontSetting: initstyle(editContent.font),
-      a:1111
+      color_list_hide:1,
+      color_list:ColorList
     })
   }
   if (selectype == "IMG") {
@@ -377,6 +392,8 @@ function txtInputDone() {
   //console.log("come back changeTxtData", JSON.stringify(fontContent));
 
   let beforeContent = null
+  console.log(dataIndex)
+  console.log(this.data.layoutList.length)
   if (dataIndex < this.data.layoutList.length){
     
     beforeContent = this.data.layoutList[dataIndex];
@@ -397,9 +414,11 @@ function txtInputDone() {
     newContent.content = rcvContent;
     newContent.font = rcvFont;
     let layoutList = this.data.layoutList;
-    if (!dataIndex){
+    
+    if (isNaN(dataIndex)){
       layoutList.push(newContent)
     }else{
+     
       // 拼接函数(索引位置, 要删除元素的数量, 元素)
       layoutList.splice(dataIndex, 0, newContent); // 
     }
@@ -408,7 +427,12 @@ function txtInputDone() {
     this.setData({
       layoutList: layoutList,
       showMode: "common",
-
+    },(data)=>{
+      wx.createSelectorQuery().select('.container').boundingClientRect(function (rect) {
+        wx.pageScrollTo({
+          scrollTop: rect.bottom
+        })
+      }).exec()
     });
   }
   else {
@@ -459,7 +483,7 @@ function imageInputDone() {
     newContent.content = rcvContent;
     newContent.remark = remark;
     let layoutList = this.data.layoutList;
-    if (!dataIndex) {
+    if (isNaN(dataIndex)) {
       layoutList.push(newContent)
     }else{
       // 拼接函数(索引位置, 要删除元素的数量, 元素)
@@ -541,7 +565,7 @@ function schooseNewEditType(event) {
         //   }
 
         if (newEditType == "TXT") {
-          let editContent = JSON.parse('{\"mytype\":\"1\",\"content\":\"\",\"font\":{\"size\":16,\"weight\":0,\"del\":0,\"line\":0,\"center\":0,\"color\":\"#ED1C24\",\"bgcolor\":\"#fff \",\"showcolor\":0,\"fontSetting\":\"\"},\"remark\":\"\"}');
+          let editContent = JSON.parse('{\"mytype\":\"1\",\"content\":\"\",\"font\":{\"size\":16,\"weight\":0,\"del\":0,\"line\":0,\"center\":0,\"color\":\"'+ColorList.Black+'\",\"bgcolor\":\"#fff \",\"showcolor\":0,\"fontSetting\":\"\"},\"remark\":\"\"}');
          
           
           editContent.act = "new";
@@ -726,7 +750,6 @@ function fontEvent(event) {
     }
   }
   else if (eventid[0] == 16){
-   
     if (color_list_hide==1){
       this.setData({
         color_list_hide:0
@@ -738,6 +761,14 @@ function fontEvent(event) {
     }
     return
   }
+  else if (eventid[0]==20){
+    this.setData({
+      color_list_hide: 1
+    })
+    return
+  } else if (eventid[0] == 14){
+    editContent.font.color = eventid[1]
+  }
 
   let fontSetting = initstyle(editContent.font);
   editContent.font.fontSetting = fontSetting
@@ -746,11 +777,15 @@ function fontEvent(event) {
   this.setData({
     //editContent:editContent,
     "editContent.font": editContent.font,
-    fontSetting: fontSetting
+    fontSetting: fontSetting,
+    color_list_hide:1
   });
 
 }
 
+function handleProxy(event){
+  return
+}
 
 /* 将字体设定变成CSS表达式
 font ：  字体 设定
